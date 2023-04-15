@@ -12,6 +12,9 @@ void outputscrn(string ISBN, string BookTitle, string Author,int ExpectedEnrollm
 void inputscrn(string ISBN, string BookTitle, string Author, string ExpectedEnrollment, string BookCost, string req, string usednew);
 void menuerror();
 void exitscrn();
+double calculation(double BookCost, int ExpectedEnrollment, string req, string book);
+int amountofbooks(int enrolled, string required, string book);
+
 
 string output_screen(string ISBN, string Author, string BookTitle, 
                    string ExpectedEnrollment, string req, string BookCost, string usednew);
@@ -350,8 +353,8 @@ int done = static_cast<int>(dot);
 }//outputscreen method
 
 string outputscrn(string ISBN, string BookTitle, string Author,string ExpectedEnrollment, string BookCost, string req, string usednew){
- double newprice = atof(prices_book.c_str());
-    int newenroll = atoi(enrolled.c_str());
+ double newprice = atof(BookCost.c_str());
+    int newenroll = atoi(ExpectedEnrollment.c_str());
 
     stringstream outputToFile;
     outputToFile << "\t\t\t" << endl;
@@ -427,4 +430,52 @@ void menuerror(){
     cout << "||                                     04/03/2023  ||" << endl;//21
     cout << " \\_______________________________________________// " << endl;//22
     cout << "  \\_____________________________________________//  " << endl;//23
+}
+
+
+double calculation(double BookCost, int ExpectedEnrollment, string req, string book) {
+    double numBooks;
+    double factored = 1;
+    if (book == "new") {
+        if (req == "required") {
+            factored = 1.0;   // Book is new and required
+        }
+        else {
+            factored = 0.35;  // Book is new but not required
+        }
+    }
+    else {
+        if (req == "required") {
+            factored = 0.6;  // Book is not new but is required
+        }
+        else {
+            factored = 0.1;  // Book is not new and is not required
+        }
+    }
+    numBooks = ExpectedEnrollment * factored;
+    double cost = numBooks * BookCost;
+    return cost;
+}
+
+int amountofbooks (int enrolled, string required, string book){
+    double numBooks = enrolled;
+    double factored = 1;
+    if(book == "new"){
+        if(required == "required"){
+         factored = 1.0;   // Book is new and required
+        }
+        else{
+         factored = 0.35;  // Book is new but not required
+        }
+    }
+    else {
+        if(required == "required"){
+            factored = 0.6;  // Book is not new but is required
+        }
+        else  {
+            factored = 0.1;  // Book is not new and is not required
+        }
+    }
+    numBooks= enrolled * factored;
+    return numBooks;
 }
